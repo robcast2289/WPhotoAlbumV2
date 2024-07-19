@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<albumes>
+	<album>
+		<nombre>Album 1</nombre>
+		<fotos>
+			<ruta>D:\Imagenes\DragonBall\img1.jpg</ruta>
+			<ruta>D:\Imagenes\DragonBall\img2.jpg</ruta>
+			<ruta>D:\Imagenes\DragonBall\img3.jpg</ruta>
+			<ruta>D:\Imagenes\DragonBall\img4.jpg</ruta>
+		</fotos>
+	</album>
+	<album>
+		<nombre>Galeria 2</nombre>
+		<fotos>
+			<ruta>galeria1.jpg</ruta>
+			<ruta>galeria2.jpg</ruta>
+			<ruta>galeria3.jpg</ruta>
+			<ruta>galeria4.jpg</ruta>
+		</fotos>
+	</album>
+</albumes>
