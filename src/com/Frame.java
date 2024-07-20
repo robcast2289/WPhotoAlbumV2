@@ -15,18 +15,20 @@ public class Frame extends javax.swing.JFrame {
     AnimationClass ac = new AnimationClass();
     Thread myTread;
     ControlSubThread mt;
+    ListAlbum lstAlbum;
+    int sleepInterval = 2000;
     /**
      * Creates new form Frame
      */
     public Frame() {
         initComponents();
-        ListAlbum album = getListAlbum();
-        fillAlbumSelect(album);
+        lstAlbum = getListAlbum();
+        fillAlbumSelect(lstAlbum);
         scaleImages();
         //sliderShow();
         
-        mt = new ControlSubThread(3000,album.Albumes.get(0),img1,img2,img3);
-        mt.start();
+        mt = new ControlSubThread(sleepInterval,lstAlbum.Albumes.get(0),img1,img2,img3);
+        //mt.start();
     }
     
     public ListAlbum getListAlbum(){
@@ -141,7 +143,6 @@ public class Frame extends javax.swing.JFrame {
 
         container = new javax.swing.JPanel();
         left = new javax.swing.JPanel();
-        title = new javax.swing.JLabel();
         img1 = new javax.swing.JLabel();
         img2 = new javax.swing.JLabel();
         img3 = new javax.swing.JLabel();
@@ -150,6 +151,9 @@ public class Frame extends javax.swing.JFrame {
         right = new javax.swing.JPanel();
         stop = new javax.swing.JButton();
         start = new javax.swing.JButton();
+        loop = new javax.swing.JToggleButton();
+        back = new javax.swing.JToggleButton();
+        next = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -159,26 +163,19 @@ public class Frame extends javax.swing.JFrame {
 
         left.setBackground(new java.awt.Color(255, 255, 255));
         left.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        title.setBackground(new java.awt.Color(0, 0, 0));
-        title.setFont(new java.awt.Font("Showcard Gothic", 1, 36)); // NOI18N
-        title.setForeground(new java.awt.Color(255, 255, 255));
-        title.setText("Algun texto aqui");
-        left.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, -1, -1));
-
-        img1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/IMG_20210501_182020.jpg"))); // NOI18N
         left.add(img1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 500, 500));
-
-        img2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/IMG_20210504_065007.jpg"))); // NOI18N
         left.add(img2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, 500, 500));
-
-        img3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/IMG_20210504_090647.jpg"))); // NOI18N
         left.add(img3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-500, 50, 500, 500));
 
         jLabel1.setText("Album de Fotos");
         jLabel1.setToolTipText("");
         left.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 14, -1, -1));
 
+        album.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                albumActionPerformed(evt);
+            }
+        });
         left.add(album, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 200, -1));
 
         container.add(left, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
@@ -186,21 +183,50 @@ public class Frame extends javax.swing.JFrame {
         right.setBackground(new java.awt.Color(255, 255, 255));
         right.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        stop.setText("Stop");
+        stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Stop.png"))); // NOI18N
+        stop.setBorder(null);
         stop.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 stopMouseClicked(evt);
             }
         });
-        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, -1, -1));
+        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 50, 50));
 
-        start.setText("Start");
+        start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Play.png"))); // NOI18N
+        start.setBorder(null);
         start.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 startMouseClicked(evt);
             }
         });
-        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
+        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 50, 50));
+
+        loop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
+        loop.setBorder(null);
+        loop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loopActionPerformed(evt);
+            }
+        });
+        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 50, 50));
+
+        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Loop.png"))); // NOI18N
+        back.setBorder(null);
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
+        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 50, 50));
+
+        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Prev.png"))); // NOI18N
+        next.setBorder(null);
+        next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextActionPerformed(evt);
+            }
+        });
+        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 50, 50));
 
         container.add(right, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 200, 500));
 
@@ -210,13 +236,49 @@ public class Frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void stopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopMouseClicked
-        System.out.println("Hola mundo");
         mt.stop();
+        start.setIcon(new ImageIcon(getClass().getResource("/img/Play.png")));
     }//GEN-LAST:event_stopMouseClicked
 
     private void startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startMouseClicked
-        mt.start();
+        if(mt.isRunning()){
+            mt.pause();
+            //start.setText("Start");
+            start.setIcon(new ImageIcon(getClass().getResource("/img/Play.png")));
+        } else {
+            mt.start();
+            //start.setText("Pause");
+            start.setIcon(new ImageIcon(getClass().getResource("/img/Pause.png")));
+        }
+        
     }//GEN-LAST:event_startMouseClicked
+
+    private void albumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_albumActionPerformed
+        // TODO add your handling code here:        
+        if(mt != null)
+            mt.stop();
+        for(Album alb: lstAlbum.Albumes){
+            if(alb.Nombre == album.getSelectedItem()){
+                mt = new ControlSubThread(sleepInterval,alb,img1,img2,img3);
+            }
+        }
+    }//GEN-LAST:event_albumActionPerformed
+
+    private void loopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loopActionPerformed
+        if(loop.isSelected()){
+            loop.setIcon(new ImageIcon(getClass().getResource("/img/LoopActive.png")));
+        } else {
+            loop.setIcon(new ImageIcon(getClass().getResource("/img/Loop.png")));
+        }
+    }//GEN-LAST:event_loopActionPerformed
+
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_backActionPerformed
+
+    private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,15 +317,17 @@ public class Frame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> album;
+    private javax.swing.JToggleButton back;
     private javax.swing.JPanel container;
     private javax.swing.JLabel img1;
     private javax.swing.JLabel img2;
     private javax.swing.JLabel img3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel left;
+    private javax.swing.JToggleButton loop;
+    private javax.swing.JToggleButton next;
     private javax.swing.JPanel right;
     private javax.swing.JButton start;
     private javax.swing.JButton stop;
-    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

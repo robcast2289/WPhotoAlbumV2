@@ -17,7 +17,8 @@ import javax.swing.JLabel;
 public class ControlSubThread implements Runnable {
 
     private Thread worker;
-    private final AtomicBoolean running = new AtomicBoolean(false);
+    //private final AtomicBoolean running = new AtomicBoolean(false);
+    private volatile boolean running = false;
     private int interval;
     JLabel img1, img2, img3;
     Album album;
@@ -101,20 +102,31 @@ public class ControlSubThread implements Runnable {
     }
  
     public void stop() {
-        running.set(false);
+        //running.set(false);
+        running = false;
+        cargarAlbum();
     }
     
     public void pause() {
-        running.set(false);
+        //running.set(false);
+        running = false;
+    }
+    
+    boolean isRunning() {
+        //return running.get();
+        return running;
     }
 
     @Override
     public void run() { 
+        System.out.println("Entro");
         int nb=0;
         int delay = 12;
         int increment = 10;
-        running.set(true);
-        while (running.get()) {
+        //running.set(true);
+        running = true;
+        //while (running.get()) {
+        while(running){
             //System.out.println(actual.ruta);
             
             try { 
@@ -144,7 +156,7 @@ public class ControlSubThread implements Runnable {
                         nb=0;
                         break;
                 }
-                System.out.println("Hola Mundo");
+                //System.out.println(running.get());
                 actual = actual.siguiente;
                 setImages(nb);
             } catch (InterruptedException e){ 

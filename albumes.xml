@@ -12,10 +12,8 @@
 	<album>
 		<nombre>Galeria 2</nombre>
 		<fotos>
-			<ruta>galeria1.jpg</ruta>
-			<ruta>galeria2.jpg</ruta>
-			<ruta>galeria3.jpg</ruta>
-			<ruta>galeria4.jpg</ruta>
+			<ruta>D:\Imagenes\450_1000.png</ruta>
+			<ruta>D:\Imagenes\email.png</ruta>
 		</fotos>
 	</album>
 </albumes>
