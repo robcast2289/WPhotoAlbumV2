@@ -154,6 +154,8 @@ public class Frame extends javax.swing.JFrame {
         loop = new javax.swing.JToggleButton();
         back = new javax.swing.JToggleButton();
         next = new javax.swing.JToggleButton();
+        first = new javax.swing.JToggleButton();
+        last = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -190,7 +192,7 @@ public class Frame extends javax.swing.JFrame {
                 stopMouseClicked(evt);
             }
         });
-        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 50, 50));
+        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 50, 50));
 
         start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Play.png"))); // NOI18N
         start.setBorder(null);
@@ -199,9 +201,9 @@ public class Frame extends javax.swing.JFrame {
                 startMouseClicked(evt);
             }
         });
-        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 50, 50));
+        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 50, 50));
 
-        loop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
+        loop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Loop.png"))); // NOI18N
         loop.setBorder(null);
         loop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,23 +212,41 @@ public class Frame extends javax.swing.JFrame {
         });
         right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 50, 50));
 
-        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Loop.png"))); // NOI18N
+        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Prev.png"))); // NOI18N
         back.setBorder(null);
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backActionPerformed(evt);
             }
         });
-        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 50, 50));
+        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 50, 50));
 
-        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Prev.png"))); // NOI18N
+        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
         next.setBorder(null);
         next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextActionPerformed(evt);
             }
         });
-        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 50, 50));
+        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 50, 50));
+
+        first.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/First.png"))); // NOI18N
+        first.setBorder(null);
+        first.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firstActionPerformed(evt);
+            }
+        });
+        right.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 50, 50));
+
+        last.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Last.png"))); // NOI18N
+        last.setBorder(null);
+        last.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lastActionPerformed(evt);
+            }
+        });
+        right.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 50, 50));
 
         container.add(right, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 200, 500));
 
@@ -265,6 +285,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_albumActionPerformed
 
     private void loopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loopActionPerformed
+        System.out.println(loop.isSelected());
         if(loop.isSelected()){
             loop.setIcon(new ImageIcon(getClass().getResource("/img/LoopActive.png")));
         } else {
@@ -279,6 +300,14 @@ public class Frame extends javax.swing.JFrame {
     private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nextActionPerformed
+
+    private void firstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_firstActionPerformed
+
+    private void lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lastActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,10 +348,12 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> album;
     private javax.swing.JToggleButton back;
     private javax.swing.JPanel container;
+    private javax.swing.JToggleButton first;
     private javax.swing.JLabel img1;
     private javax.swing.JLabel img2;
     private javax.swing.JLabel img3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JToggleButton last;
     private javax.swing.JPanel left;
     private javax.swing.JToggleButton loop;
     private javax.swing.JToggleButton next;
