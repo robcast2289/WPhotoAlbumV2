@@ -158,6 +158,9 @@ public class ControlSubThread implements Runnable {
                 }
                 //System.out.println(running.get());
                 actual = actual.siguiente;
+                if(album.Fotos.Ultimo == actual){
+                    running = false;
+                }
                 setImages(nb);
             } catch (InterruptedException e){ 
                 Thread.currentThread().interrupt();

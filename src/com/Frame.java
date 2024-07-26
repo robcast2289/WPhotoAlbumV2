@@ -5,7 +5,12 @@
 package com;
 import AppPackage.AnimationClass;
 import java.awt.Image;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 /**
  *
  * @author Roberto Castro
@@ -17,17 +22,21 @@ public class Frame extends javax.swing.JFrame {
     ControlSubThread mt;
     ListAlbum lstAlbum;
     int sleepInterval = 2000;
+    AdminAlbum admAlbum = null;
     /**
      * Creates new form Frame
      */
     public Frame() {
         initComponents();
+        setLocationRelativeTo(null);   
         lstAlbum = getListAlbum();
-        fillAlbumSelect(lstAlbum);
-        scaleImages();
+        fillAlbumSelect();
+        //scaleImages();
         //sliderShow();
         
-        mt = new ControlSubThread(sleepInterval,lstAlbum.Albumes.get(0),img1,img2,img3);
+        if(!lstAlbum.Albumes.isEmpty()){
+            mt = new ControlSubThread(sleepInterval,lstAlbum.Albumes.get(0),img1,img2,img3);
+        }
         //mt.start();
     }
     
@@ -36,10 +45,39 @@ public class Frame extends javax.swing.JFrame {
         return file.loadFile();
     }
     
-    public void fillAlbumSelect(ListAlbum dataAlbum){
-        for(Album alb: dataAlbum.Albumes){
-            album.addItem(alb.Nombre);
-        }
+    public void fillAlbumSelect(){
+        album.removeAllItems();
+        
+        
+        PopupMenuListener listener = new PopupMenuListener() {
+            boolean initialized = false;
+
+            public void popupMenuCanceled(PopupMenuEvent e) {
+            }
+
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            }
+
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                System.out.println("Hola");
+                lstAlbum = getListAlbum();
+                if (!initialized) {
+                    String[] flavors = new String[lstAlbum.Albumes.size()];
+                    for(int x=0;x<lstAlbum.Albumes.size();x++){
+                        //album.addItem(alb.Nombre);
+                        flavors[x] = lstAlbum.Albumes.get(x).Nombre;
+                    }
+                    //lstAlbum.Albumes.toArray(flavors);
+                    //System.out.println(flavors);
+                    JComboBox combo = (JComboBox) e.getSource();
+                    ComboBoxModel model = new DefaultComboBoxModel(flavors);
+                    combo.setModel(model);
+                    //initialized = true;
+                }
+            }
+          };
+        
+        album.addPopupMenuListener(listener);
         
     }
     
@@ -156,6 +194,7 @@ public class Frame extends javax.swing.JFrame {
         next = new javax.swing.JToggleButton();
         first = new javax.swing.JToggleButton();
         last = new javax.swing.JToggleButton();
+        newalbum = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -178,7 +217,7 @@ public class Frame extends javax.swing.JFrame {
                 albumActionPerformed(evt);
             }
         });
-        left.add(album, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 200, -1));
+        left.add(album, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 200, -1));
 
         container.add(left, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
@@ -248,6 +287,14 @@ public class Frame extends javax.swing.JFrame {
         });
         right.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 50, 50));
 
+        newalbum.setText("Albumes");
+        newalbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newalbumActionPerformed(evt);
+            }
+        });
+        right.add(newalbum, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, -1, -1));
+
         container.add(right, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 200, 500));
 
         getContentPane().add(container, "card2");
@@ -275,6 +322,7 @@ public class Frame extends javax.swing.JFrame {
 
     private void albumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_albumActionPerformed
         // TODO add your handling code here:        
+        //fillAlbumSelect(lstAlbum);
         if(mt != null)
             mt.stop();
         for(Album alb: lstAlbum.Albumes){
@@ -308,6 +356,17 @@ public class Frame extends javax.swing.JFrame {
     private void lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lastActionPerformed
+
+    private void newalbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newalbumActionPerformed
+        if(admAlbum != null && admAlbum.formClosed == false){
+            admAlbum = null;
+        }
+        if(admAlbum == null){
+            admAlbum = new AdminAlbum();            
+        }
+        admAlbum.setDatos(lstAlbum);
+        admAlbum.setVisible(true);
+    }//GEN-LAST:event_newalbumActionPerformed
 
     /**
      * @param args the command line arguments
@@ -356,6 +415,7 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JToggleButton last;
     private javax.swing.JPanel left;
     private javax.swing.JToggleButton loop;
+    private javax.swing.JButton newalbum;
     private javax.swing.JToggleButton next;
     private javax.swing.JPanel right;
     private javax.swing.JButton start;
