@@ -19,6 +19,7 @@ public class ControlSubThread implements Runnable {
     private Thread worker;
     //private final AtomicBoolean running = new AtomicBoolean(false);
     private volatile boolean running = false;
+    private volatile boolean looping = false;
     private int interval;
     JLabel img1, img2, img3;
     Album album;
@@ -112,6 +113,11 @@ public class ControlSubThread implements Runnable {
         running = false;
     }
     
+    public void loop(boolean _looping) {
+        //running.set(false);
+        looping = _looping;
+    }
+    
     boolean isRunning() {
         //return running.get();
         return running;
@@ -158,7 +164,7 @@ public class ControlSubThread implements Runnable {
                 }
                 //System.out.println(running.get());
                 actual = actual.siguiente;
-                if(album.Fotos.Ultimo == actual){
+                if(album.Fotos.Ultimo == actual && !looping){
                     running = false;
                 }
                 setImages(nb);

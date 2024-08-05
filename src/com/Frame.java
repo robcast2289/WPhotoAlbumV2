@@ -231,7 +231,7 @@ public class Frame extends javax.swing.JFrame {
                 stopMouseClicked(evt);
             }
         });
-        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 50, 50));
+        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 50, 50));
 
         start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Play.png"))); // NOI18N
         start.setBorder(null);
@@ -240,7 +240,7 @@ public class Frame extends javax.swing.JFrame {
                 startMouseClicked(evt);
             }
         });
-        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 50, 50));
+        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 50, 50));
 
         loop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Loop.png"))); // NOI18N
         loop.setBorder(null);
@@ -249,7 +249,7 @@ public class Frame extends javax.swing.JFrame {
                 loopActionPerformed(evt);
             }
         });
-        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 50, 50));
+        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 50, 50));
 
         back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Prev.png"))); // NOI18N
         back.setBorder(null);
@@ -258,7 +258,7 @@ public class Frame extends javax.swing.JFrame {
                 backActionPerformed(evt);
             }
         });
-        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 50, 50));
+        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 50, 50));
 
         next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
         next.setBorder(null);
@@ -267,7 +267,7 @@ public class Frame extends javax.swing.JFrame {
                 nextActionPerformed(evt);
             }
         });
-        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 50, 50));
+        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 50, 50));
 
         first.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/First.png"))); // NOI18N
         first.setBorder(null);
@@ -276,7 +276,7 @@ public class Frame extends javax.swing.JFrame {
                 firstActionPerformed(evt);
             }
         });
-        right.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 50, 50));
+        right.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 50, 50));
 
         last.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Last.png"))); // NOI18N
         last.setBorder(null);
@@ -285,7 +285,7 @@ public class Frame extends javax.swing.JFrame {
                 lastActionPerformed(evt);
             }
         });
-        right.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 50, 50));
+        right.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 50, 50));
 
         newalbum.setText("Albumes");
         newalbum.addActionListener(new java.awt.event.ActionListener() {
@@ -293,7 +293,7 @@ public class Frame extends javax.swing.JFrame {
                 newalbumActionPerformed(evt);
             }
         });
-        right.add(newalbum, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, -1, -1));
+        right.add(newalbum, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, -1, -1));
 
         container.add(right, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 200, 500));
 
@@ -335,8 +335,10 @@ public class Frame extends javax.swing.JFrame {
     private void loopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loopActionPerformed
         System.out.println(loop.isSelected());
         if(loop.isSelected()){
+            mt.loop(true);
             loop.setIcon(new ImageIcon(getClass().getResource("/img/LoopActive.png")));
         } else {
+            mt.loop(false);
             loop.setIcon(new ImageIcon(getClass().getResource("/img/Loop.png")));
         }
     }//GEN-LAST:event_loopActionPerformed
