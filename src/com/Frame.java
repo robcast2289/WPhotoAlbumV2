@@ -106,6 +106,7 @@ public class Frame extends javax.swing.JFrame {
         album = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Album de Fotografías");
         getContentPane().setLayout(new java.awt.CardLayout());
 
         container.setBackground(new java.awt.Color(255, 255, 255));
@@ -113,7 +114,7 @@ public class Frame extends javax.swing.JFrame {
 
         left.setBackground(new java.awt.Color(255, 255, 255));
         left.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        left.add(img1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 500, 500));
+        left.add(img1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
         container.add(left, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
@@ -127,7 +128,7 @@ public class Frame extends javax.swing.JFrame {
                 stopMouseClicked(evt);
             }
         });
-        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 50, 50));
+        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 50, 50));
 
         start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Play.png"))); // NOI18N
         start.setBorder(null);
@@ -136,7 +137,7 @@ public class Frame extends javax.swing.JFrame {
                 startMouseClicked(evt);
             }
         });
-        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 50, 50));
+        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 50, 50));
 
         loop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Loop.png"))); // NOI18N
         loop.setBorder(null);
@@ -145,7 +146,7 @@ public class Frame extends javax.swing.JFrame {
                 loopActionPerformed(evt);
             }
         });
-        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 50, 50));
+        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 50, 50));
 
         back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Prev.png"))); // NOI18N
         back.setBorder(null);
@@ -154,7 +155,7 @@ public class Frame extends javax.swing.JFrame {
                 backActionPerformed(evt);
             }
         });
-        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 50, 50));
+        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 50, 50));
 
         next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
         next.setBorder(null);
@@ -163,7 +164,7 @@ public class Frame extends javax.swing.JFrame {
                 nextActionPerformed(evt);
             }
         });
-        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 50, 50));
+        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 50, 50));
 
         first.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/First.png"))); // NOI18N
         first.setBorder(null);
@@ -172,7 +173,7 @@ public class Frame extends javax.swing.JFrame {
                 firstActionPerformed(evt);
             }
         });
-        right.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 50, 50));
+        right.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 50, 50));
 
         last.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Last.png"))); // NOI18N
         last.setBorder(null);
@@ -181,7 +182,7 @@ public class Frame extends javax.swing.JFrame {
                 lastActionPerformed(evt);
             }
         });
-        right.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 50, 50));
+        right.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 50, 50));
 
         newalbum.setText("Albumes");
         newalbum.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +190,7 @@ public class Frame extends javax.swing.JFrame {
                 newalbumActionPerformed(evt);
             }
         });
-        right.add(newalbum, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, -1, -1));
+        right.add(newalbum, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 440, -1, -1));
 
         lblSelect.setText("Seleccione album:");
         lblSelect.setToolTipText("");
@@ -226,13 +227,13 @@ public class Frame extends javax.swing.JFrame {
         start.setIcon(new ImageIcon(getClass().getResource("/img/Play.png")));
     }//GEN-LAST:event_stopMouseClicked
 
-    private void startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startMouseClicked
+    private void startMouseClicked(java.awt.event.MouseEvent evt) {                                   
         if(mt.isRunning())
             mt.pause();
         else
             mt.start();
         
-    }//GEN-LAST:event_startMouseClicked    
+    }                                      
 
     private void loopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loopActionPerformed
         System.out.println(loop.isSelected());
