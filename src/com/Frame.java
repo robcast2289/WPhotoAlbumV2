@@ -33,11 +33,9 @@ public class Frame extends javax.swing.JFrame {
         setLocationRelativeTo(null);   
         lstAlbum = getListAlbum();
         fillAlbumSelect();
-        //scaleImages();
-        //sliderShow();
         
         if(!lstAlbum.Albumes.isEmpty()){
-            mt = new ControlSubThread(sleepInterval,lstAlbum.Albumes.get(0),img1,img2,img3);
+            mt = new ControlSubThread(sleepInterval,lstAlbum.Albumes.get(0),img1,start);
         }
         //mt.start();
     }
@@ -82,95 +80,6 @@ public class Frame extends javax.swing.JFrame {
         album.addPopupMenuListener(listener);
         
     }
-    
-    public void sliderShow(){
-        myTread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int nb=0;
-                try{
-                    /*while(true){
-                        switch(nb){
-                            case 0:
-                                Thread.sleep(3000);
-                                ac.jLabelXLeft(0, -500, 12, 10, img1);
-                                ac.jLabelXLeft(500, 0, 12, 10, img2);
-                                ac.jLabelXLeft(1000, 500, 12, 10, img3);
-                                nb++;
-                            case 1:
-                                Thread.sleep(3000);
-                                ac.jLabelXLeft(-500, -1000, 12, 10, img1);
-                                ac.jLabelXLeft(0, -500, 12, 10, img2);
-                                ac.jLabelXLeft(500, 0, 12, 10, img3);
-                                nb++;
-                            case 2:
-                                Thread.sleep(3000);
-                                ac.jLabelXRight(-1000, -500, 12, 10, img1);
-                                ac.jLabelXRight(-500, 0, 12, 10, img2);
-                                ac.jLabelXRight(0, 500, 12, 10, img3);
-                                nb++;
-                            case 3:
-                                Thread.sleep(3000);
-                                ac.jLabelXRight(-500, 0, 12, 10, img1);
-                                ac.jLabelXRight(0, 500, 12, 10, img2);
-                                ac.jLabelXRight(500, 1000, 12, 10, img3);
-                                nb=0;
-                        }
-                    }*/
-                    int delay = 12;
-                    int increment = 10;
-                    int sleep = 500;
-                    while(true){
-                        switch(nb){
-                            case 0:
-                                Thread.sleep(sleep);
-                                ac.jLabelXLeft(0, -500, delay, increment, img1);
-                                ac.jLabelXLeft(500, 0, delay, increment, img2);
-                                ac.jLabelXLeft(-500, 500, delay, increment, img3);                                
-                                nb++;
-                            case 1:
-                                Thread.sleep(sleep);
-                                ac.jLabelXLeft(-500, 500, delay, increment, img1);
-                                ac.jLabelXLeft(0, -500, delay, increment, img2);
-                                ac.jLabelXLeft(500, 0, delay, increment, img3);
-                                nb++;
-                                //img1.setLocation(500, 0);
-                            case 2:
-                                
-                                Thread.sleep(sleep);
-                                ac.jLabelXLeft(500, 0, delay, increment, img1);
-                                ac.jLabelXLeft(-500, 500, delay, increment, img2);
-                                ac.jLabelXLeft(0, -500, delay, increment, img3);
-                                nb=0;
-                            /*case 3:
-                                Thread.sleep(3000);
-                                ac.jLabelXRight(-500, 0, 12, 10, img1);
-                                ac.jLabelXRight(0, 500, 12, 10, img2);
-                                ac.jLabelXRight(500, 1000, 12, 10, img3);
-                                nb=0;*/
-                        }
-                    }
-                }catch(Exception ex) {
-                }
-            }
-        });
-
-        myTread.start();
-    }
-    
-    public void scaleImages(){
-        Image img = ((ImageIcon)img1.getIcon()).getImage();
-        ImageIcon scaled = new ImageIcon(img.getScaledInstance(img1.getHeight(), img1.getWidth(), Image.SCALE_SMOOTH));
-        img1.setIcon(scaled);
-        
-        img = ((ImageIcon)img2.getIcon()).getImage();
-        scaled = new ImageIcon(img.getScaledInstance(img2.getHeight(), img2.getWidth(), Image.SCALE_SMOOTH));
-        img2.setIcon(scaled);
-        
-        img = ((ImageIcon)img3.getIcon()).getImage();
-        scaled = new ImageIcon(img.getScaledInstance(img3.getHeight(), img3.getWidth(), Image.SCALE_SMOOTH));
-        img3.setIcon(scaled);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -184,10 +93,6 @@ public class Frame extends javax.swing.JFrame {
         container = new javax.swing.JPanel();
         left = new javax.swing.JPanel();
         img1 = new javax.swing.JLabel();
-        img2 = new javax.swing.JLabel();
-        img3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        album = new javax.swing.JComboBox<>();
         right = new javax.swing.JPanel();
         stop = new javax.swing.JButton();
         start = new javax.swing.JButton();
@@ -197,6 +102,8 @@ public class Frame extends javax.swing.JFrame {
         first = new javax.swing.JToggleButton();
         last = new javax.swing.JToggleButton();
         newalbum = new javax.swing.JButton();
+        lblSelect = new javax.swing.JLabel();
+        album = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -207,19 +114,6 @@ public class Frame extends javax.swing.JFrame {
         left.setBackground(new java.awt.Color(255, 255, 255));
         left.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         left.add(img1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 500, 500));
-        left.add(img2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, 500, 500));
-        left.add(img3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-500, 50, 500, 500));
-
-        jLabel1.setText("Album de Fotos");
-        jLabel1.setToolTipText("");
-        left.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 14, -1, -1));
-
-        album.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                albumActionPerformed(evt);
-            }
-        });
-        left.add(album, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 200, -1));
 
         container.add(left, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
@@ -233,7 +127,7 @@ public class Frame extends javax.swing.JFrame {
                 stopMouseClicked(evt);
             }
         });
-        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 50, 50));
+        right.add(stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 50, 50));
 
         start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Play.png"))); // NOI18N
         start.setBorder(null);
@@ -242,7 +136,7 @@ public class Frame extends javax.swing.JFrame {
                 startMouseClicked(evt);
             }
         });
-        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 50, 50));
+        right.add(start, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 50, 50));
 
         loop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Loop.png"))); // NOI18N
         loop.setBorder(null);
@@ -251,7 +145,7 @@ public class Frame extends javax.swing.JFrame {
                 loopActionPerformed(evt);
             }
         });
-        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 50, 50));
+        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 50, 50));
 
         back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Prev.png"))); // NOI18N
         back.setBorder(null);
@@ -260,7 +154,7 @@ public class Frame extends javax.swing.JFrame {
                 backActionPerformed(evt);
             }
         });
-        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 50, 50));
+        right.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 50, 50));
 
         next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
         next.setBorder(null);
@@ -269,7 +163,7 @@ public class Frame extends javax.swing.JFrame {
                 nextActionPerformed(evt);
             }
         });
-        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 50, 50));
+        right.add(next, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 50, 50));
 
         first.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/First.png"))); // NOI18N
         first.setBorder(null);
@@ -278,7 +172,7 @@ public class Frame extends javax.swing.JFrame {
                 firstActionPerformed(evt);
             }
         });
-        right.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 50, 50));
+        right.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 50, 50));
 
         last.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Last.png"))); // NOI18N
         last.setBorder(null);
@@ -287,7 +181,7 @@ public class Frame extends javax.swing.JFrame {
                 lastActionPerformed(evt);
             }
         });
-        right.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 50, 50));
+        right.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 50, 50));
 
         newalbum.setText("Albumes");
         newalbum.addActionListener(new java.awt.event.ActionListener() {
@@ -295,7 +189,18 @@ public class Frame extends javax.swing.JFrame {
                 newalbumActionPerformed(evt);
             }
         });
-        right.add(newalbum, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, -1, -1));
+        right.add(newalbum, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, -1, -1));
+
+        lblSelect.setText("Seleccione album:");
+        lblSelect.setToolTipText("");
+        right.add(lblSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+
+        album.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                albumActionPerformed(evt);
+            }
+        });
+        right.add(album, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 180, -1));
 
         container.add(right, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 200, 500));
 
@@ -310,15 +215,10 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_stopMouseClicked
 
     private void startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startMouseClicked
-        if(mt.isRunning()){
+        if(mt.isRunning())
             mt.pause();
-            //start.setText("Start");
-            start.setIcon(new ImageIcon(getClass().getResource("/img/Play.png")));
-        } else {
+        else
             mt.start();
-            //start.setText("Pause");
-            start.setIcon(new ImageIcon(getClass().getResource("/img/Pause.png")));
-        }
         
     }//GEN-LAST:event_startMouseClicked
 
@@ -329,7 +229,7 @@ public class Frame extends javax.swing.JFrame {
             mt.stop();
         for(Album alb: lstAlbum.Albumes){
             if(alb.Nombre == album.getSelectedItem()){
-                mt = new ControlSubThread(sleepInterval,alb,img1,img2,img3);
+                mt = new ControlSubThread(sleepInterval,alb,img1,start);
             }
         }
     }//GEN-LAST:event_albumActionPerformed
@@ -356,11 +256,13 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_nextActionPerformed
 
     private void firstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstActionPerformed
-        // TODO add your handling code here:
+        mt.pause();
+        mt.moveFirst();
     }//GEN-LAST:event_firstActionPerformed
 
     private void lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastActionPerformed
-        // TODO add your handling code here:
+        mt.pause();
+        mt.moveLast();
     }//GEN-LAST:event_lastActionPerformed
 
     private void newalbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newalbumActionPerformed
@@ -415,10 +317,8 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JPanel container;
     private javax.swing.JToggleButton first;
     private javax.swing.JLabel img1;
-    private javax.swing.JLabel img2;
-    private javax.swing.JLabel img3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JToggleButton last;
+    private javax.swing.JLabel lblSelect;
     private javax.swing.JPanel left;
     private javax.swing.JToggleButton loop;
     private javax.swing.JButton newalbum;

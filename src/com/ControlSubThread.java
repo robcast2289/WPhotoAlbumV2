@@ -8,6 +8,7 @@ import AppPackage.AnimationClass;
 import java.awt.Image;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 /**
@@ -21,17 +22,15 @@ public class ControlSubThread implements Runnable {
     private volatile boolean running = false;
     private volatile boolean looping = false;
     private int interval;
-    JLabel img1, img2, img3;
+    JLabel img1;
+    JButton start;
     Album album;
-    int nb = 0;
     private volatile Photo actual;
-    AnimationClass ac = new AnimationClass();
 
-    public ControlSubThread(int sleepInterval, Album _album, JLabel _img1, JLabel _img2, JLabel _img3) {
+    public ControlSubThread(int sleepInterval, Album _album, JLabel _img1,JButton _start) {
         interval = sleepInterval;
         img1 = _img1;
-        img2 = _img2;
-        img3 = _img3;
+        start = _start;
         album = _album;
         
         cargarAlbum();
@@ -40,29 +39,12 @@ public class ControlSubThread implements Runnable {
     public void cargarAlbum(){
         actual = album.Fotos.Primero;
         if(actual != null){
-            setImages(0);
-            /*do {
-                actual = actual.siguiente;
-            } while (actual != alb.Fotos.Primero);*/
+            setImages();
         }
     }
     
-    public void setImages(int _order){
-        if(_order == 0){
-            setImg(img1,actual.ruta);
-            setImg(img2,actual.siguiente.ruta);
-            setImg(img3,actual.anterior.ruta);            
-        }
-        if(_order == 1){
-            setImg(img1,actual.anterior.ruta);  
-            setImg(img2,actual.ruta);
-            setImg(img3,actual.siguiente.ruta);                        
-        }
-        if(_order == 2){
-            setImg(img1,actual.siguiente.ruta);
-            setImg(img2,actual.anterior.ruta);  
-            setImg(img3,actual.ruta);            
-        }
+    public void setImages(){
+        setImg(img1,actual.ruta);
     }
     
     private void setImg(JLabel _img, String _ruta){
@@ -70,28 +52,24 @@ public class ControlSubThread implements Runnable {
         Image img = imageIcon.getImage();
         ImageIcon scaled = new ImageIcon(img.getScaledInstance(_img.getHeight(), _img.getWidth(), Image.SCALE_SMOOTH));
         _img.setIcon(scaled);
-    }
-    
-    public void resetPositionImg(){
-        img1.setLocation(0, 50);
-        img2.setLocation(500, 50);
-        img3.setLocation(-500, 50);
-    }
+    }    
  
     public void start() {
-        worker = new Thread(this);
+        worker = new Thread(this);            
         worker.start();
+        start.setIcon(new ImageIcon(getClass().getResource("/img/Pause.png")));
     }
  
     public void stop() {
         //running.set(false);
-        running = false;
+        pause();
         cargarAlbum();
     }
     
     public void pause() {
         //running.set(false);
         running = false;
+        start.setIcon(new ImageIcon(getClass().getResource("/img/Play.png")));
     }
     
     public void loop(boolean _looping) {
@@ -106,99 +84,46 @@ public class ControlSubThread implements Runnable {
 
     @Override
     public void run() { 
-        System.out.println("Entro");
-        nb=0;
-        
         //running.set(true);
         running = true;
         //while (running.get()) {
         while(running){
-            //System.out.println(actual.ruta);
-            
             try { 
-                
-                //moveNext();
-                movePrev();
+                moveNext();
                 Thread.sleep(interval);
-                //System.out.println(running.get());
-                
+
                 if(album.Fotos.Ultimo == actual && !looping){
-                    Thread.sleep(interval);
-                    running = false;
-                    resetPositionImg();
-                }
-                
+                    stop();
+                }                
             } catch (InterruptedException e){ 
                 Thread.currentThread().interrupt();
                 System.out.println(
                   "Thread was interrupted, Failed to complete operation");
             }
-            // do something here 
          } 
     } 
     
-    public void moveNext() {
-        int delay = 12;
-        int increment = 10;
-        switch(nb){
-            case 0:                        
-                ac.jLabelXLeft(0, -500, delay, increment, img1);
-                ac.jLabelXLeft(500, 0, delay, increment, img2);
-                ac.jLabelXLeft(-500, 500, delay, increment, img3);                   
-                nb++;
-                break;
-            case 1:                        
-                ac.jLabelXLeft(-500, 500, delay, increment, img1);
-                ac.jLabelXLeft(0, -500, delay, increment, img2);
-                ac.jLabelXLeft(500, 0, delay, increment, img3);
-                nb++;
-                break;
-                //img1.setLocation(500, 0);
-            case 2:
-                ac.jLabelXLeft(500, 0, delay, increment, img1);
-                ac.jLabelXLeft(-500, 500, delay, increment, img2);
-                ac.jLabelXLeft(0, -500, delay, increment, img3);
-                nb=0;
-                break;
-        }
-        actual = actual.siguiente;
-        setImages(nb);
+    public void moveNext() {  
+        if(album.Fotos.Ultimo != actual || looping){
+            actual = actual.siguiente;
+        }        
+        setImages();
     }
     
-    public void movePrev() {
-        int delay = 1;
-        int increment = 1;
-        switch(nb){
-            case 0:                        
-                //ac.jLabelXRight(0, 500, delay, increment, img1);
-                //ac.jLabelXRight(500, -500, delay, increment, img2);
-                //ac.jLabelXRight(-500, 0, delay, increment, img3);   
-                img1.setLocation(500, 50);
-                img2.setLocation(-500, 50);
-                img3.setLocation(0, 50);
-                nb=2;
-                break;
-            case 1:                        
-                //ac.jLabelXRight(-500, 0, delay, increment, img1);
-                //ac.jLabelXRight(0, 500, delay, increment, img2);
-                //ac.jLabelXRight(500, -500, delay, increment, img3);
-                img1.setLocation(0, 50);
-                img2.setLocation(500, 50);
-                img3.setLocation(-500, 50);
-                nb--;
-                break;
-                //img1.setLocation(500, 0);
-            case 2:
-                ac.jLabelXRight(500, -500, delay, increment, img1);
-                ac.jLabelXRight(-500, 0, delay, increment, img2);
-                ac.jLabelXRight(0, 500, delay, increment, img3);
-                //img1.setLocation(-500, 50);
-                //img2.setLocation(0, 50);
-                //img3.setLocation(500, 50);
-                nb--;
-                break;
+    public void movePrev() {    
+        if(album.Fotos.Primero != actual || looping){
+            actual = actual.anterior;
         }
-        actual = actual.anterior;
-        setImages(nb);
+        setImages();
+    }
+    
+    public void moveLast() {  
+        actual = album.Fotos.Ultimo;        
+        setImages();
+    }
+    
+    public void moveFirst() {    
+        actual = album.Fotos.Primero;
+        setImages();
     }
 }
