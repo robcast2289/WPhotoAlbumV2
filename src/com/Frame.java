@@ -209,19 +209,6 @@ public class Frame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void stopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopMouseClicked
-        mt.stop();
-        start.setIcon(new ImageIcon(getClass().getResource("/img/Play.png")));
-    }//GEN-LAST:event_stopMouseClicked
-
-    private void startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startMouseClicked
-        if(mt.isRunning())
-            mt.pause();
-        else
-            mt.start();
-        
-    }//GEN-LAST:event_startMouseClicked
-
     private void albumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_albumActionPerformed
         // TODO add your handling code here:        
         //fillAlbumSelect(lstAlbum);
@@ -233,6 +220,19 @@ public class Frame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_albumActionPerformed
+
+    private void stopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopMouseClicked
+        mt.stop();
+        start.setIcon(new ImageIcon(getClass().getResource("/img/Play.png")));
+    }//GEN-LAST:event_stopMouseClicked
+
+    private void startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startMouseClicked
+        if(mt.isRunning())
+            mt.pause();
+        else
+            mt.start();
+        
+    }//GEN-LAST:event_startMouseClicked    
 
     private void loopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loopActionPerformed
         System.out.println(loop.isSelected());
