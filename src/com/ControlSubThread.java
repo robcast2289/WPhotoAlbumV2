@@ -23,6 +23,7 @@ public class ControlSubThread implements Runnable {
     private int interval;
     JLabel img1, img2, img3;
     Album album;
+    int nb = 0;
     private volatile Photo actual;
     AnimationClass ac = new AnimationClass();
 
@@ -48,53 +49,33 @@ public class ControlSubThread implements Runnable {
     
     public void setImages(int _order){
         if(_order == 0){
-            ImageIcon imageIcon = new ImageIcon(actual.ruta);
-            Image img = imageIcon.getImage();
-            ImageIcon scaled = new ImageIcon(img.getScaledInstance(img1.getHeight(), img1.getWidth(), Image.SCALE_SMOOTH));
-            img1.setIcon(scaled);
-
-            imageIcon = new ImageIcon(actual.siguiente.ruta);
-            img = imageIcon.getImage();
-            scaled = new ImageIcon(img.getScaledInstance(img2.getHeight(), img2.getWidth(), Image.SCALE_SMOOTH));
-            img2.setIcon(scaled);
-
-            imageIcon = new ImageIcon(actual.anterior.ruta);
-            img = imageIcon.getImage();
-            scaled = new ImageIcon(img.getScaledInstance(img3.getHeight(), img3.getWidth(), Image.SCALE_SMOOTH));
-            img3.setIcon(scaled);
+            setImg(img1,actual.ruta);
+            setImg(img2,actual.siguiente.ruta);
+            setImg(img3,actual.anterior.ruta);            
         }
         if(_order == 1){
-            ImageIcon imageIcon = new ImageIcon(actual.anterior.ruta);
-            Image img = imageIcon.getImage();
-            ImageIcon scaled = new ImageIcon(img.getScaledInstance(img1.getHeight(), img1.getWidth(), Image.SCALE_SMOOTH));
-            img1.setIcon(scaled);
-
-            imageIcon = new ImageIcon(actual.ruta);
-            img = imageIcon.getImage();
-            scaled = new ImageIcon(img.getScaledInstance(img2.getHeight(), img2.getWidth(), Image.SCALE_SMOOTH));
-            img2.setIcon(scaled);
-
-            imageIcon = new ImageIcon(actual.siguiente.ruta);
-            img = imageIcon.getImage();
-            scaled = new ImageIcon(img.getScaledInstance(img3.getHeight(), img3.getWidth(), Image.SCALE_SMOOTH));
-            img3.setIcon(scaled);
+            setImg(img1,actual.anterior.ruta);  
+            setImg(img2,actual.ruta);
+            setImg(img3,actual.siguiente.ruta);                        
         }
         if(_order == 2){
-            ImageIcon imageIcon = new ImageIcon(actual.siguiente.ruta);
-            Image img = imageIcon.getImage();
-            ImageIcon scaled = new ImageIcon(img.getScaledInstance(img1.getHeight(), img1.getWidth(), Image.SCALE_SMOOTH));
-            img1.setIcon(scaled);
-
-            imageIcon = new ImageIcon(actual.anterior.ruta);
-            img = imageIcon.getImage();
-            scaled = new ImageIcon(img.getScaledInstance(img2.getHeight(), img2.getWidth(), Image.SCALE_SMOOTH));
-            img2.setIcon(scaled);
-
-            imageIcon = new ImageIcon(actual.ruta);
-            img = imageIcon.getImage();
-            scaled = new ImageIcon(img.getScaledInstance(img3.getHeight(), img3.getWidth(), Image.SCALE_SMOOTH));
-            img3.setIcon(scaled);
+            setImg(img1,actual.siguiente.ruta);
+            setImg(img2,actual.anterior.ruta);  
+            setImg(img3,actual.ruta);            
         }
+    }
+    
+    private void setImg(JLabel _img, String _ruta){
+        ImageIcon imageIcon = new ImageIcon(_ruta);
+        Image img = imageIcon.getImage();
+        ImageIcon scaled = new ImageIcon(img.getScaledInstance(_img.getHeight(), _img.getWidth(), Image.SCALE_SMOOTH));
+        _img.setIcon(scaled);
+    }
+    
+    public void resetPositionImg(){
+        img1.setLocation(0, 50);
+        img2.setLocation(500, 50);
+        img3.setLocation(-500, 50);
     }
  
     public void start() {
@@ -126,9 +107,8 @@ public class ControlSubThread implements Runnable {
     @Override
     public void run() { 
         System.out.println("Entro");
-        int nb=0;
-        int delay = 12;
-        int increment = 10;
+        nb=0;
+        
         //running.set(true);
         running = true;
         //while (running.get()) {
@@ -137,37 +117,17 @@ public class ControlSubThread implements Runnable {
             
             try { 
                 
-                switch(nb){
-                    case 0:
-                        Thread.sleep(interval);
-                        ac.jLabelXLeft(0, -500, delay, increment, img1);
-                        ac.jLabelXLeft(500, 0, delay, increment, img2);
-                        ac.jLabelXLeft(-500, 500, delay, increment, img3);                                
-                        nb++;
-                        break;
-                    case 1:
-                        Thread.sleep(interval);
-                        ac.jLabelXLeft(-500, 500, delay, increment, img1);
-                        ac.jLabelXLeft(0, -500, delay, increment, img2);
-                        ac.jLabelXLeft(500, 0, delay, increment, img3);
-                        nb++;
-                        break;
-                        //img1.setLocation(500, 0);
-                    case 2:
-
-                        Thread.sleep(interval);
-                        ac.jLabelXLeft(500, 0, delay, increment, img1);
-                        ac.jLabelXLeft(-500, 500, delay, increment, img2);
-                        ac.jLabelXLeft(0, -500, delay, increment, img3);
-                        nb=0;
-                        break;
-                }
+                //moveNext();
+                movePrev();
+                Thread.sleep(interval);
                 //System.out.println(running.get());
-                actual = actual.siguiente;
+                
                 if(album.Fotos.Ultimo == actual && !looping){
+                    Thread.sleep(interval);
                     running = false;
+                    resetPositionImg();
                 }
-                setImages(nb);
+                
             } catch (InterruptedException e){ 
                 Thread.currentThread().interrupt();
                 System.out.println(
@@ -176,4 +136,69 @@ public class ControlSubThread implements Runnable {
             // do something here 
          } 
     } 
+    
+    public void moveNext() {
+        int delay = 12;
+        int increment = 10;
+        switch(nb){
+            case 0:                        
+                ac.jLabelXLeft(0, -500, delay, increment, img1);
+                ac.jLabelXLeft(500, 0, delay, increment, img2);
+                ac.jLabelXLeft(-500, 500, delay, increment, img3);                   
+                nb++;
+                break;
+            case 1:                        
+                ac.jLabelXLeft(-500, 500, delay, increment, img1);
+                ac.jLabelXLeft(0, -500, delay, increment, img2);
+                ac.jLabelXLeft(500, 0, delay, increment, img3);
+                nb++;
+                break;
+                //img1.setLocation(500, 0);
+            case 2:
+                ac.jLabelXLeft(500, 0, delay, increment, img1);
+                ac.jLabelXLeft(-500, 500, delay, increment, img2);
+                ac.jLabelXLeft(0, -500, delay, increment, img3);
+                nb=0;
+                break;
+        }
+        actual = actual.siguiente;
+        setImages(nb);
+    }
+    
+    public void movePrev() {
+        int delay = 1;
+        int increment = 1;
+        switch(nb){
+            case 0:                        
+                //ac.jLabelXRight(0, 500, delay, increment, img1);
+                //ac.jLabelXRight(500, -500, delay, increment, img2);
+                //ac.jLabelXRight(-500, 0, delay, increment, img3);   
+                img1.setLocation(500, 50);
+                img2.setLocation(-500, 50);
+                img3.setLocation(0, 50);
+                nb=2;
+                break;
+            case 1:                        
+                //ac.jLabelXRight(-500, 0, delay, increment, img1);
+                //ac.jLabelXRight(0, 500, delay, increment, img2);
+                //ac.jLabelXRight(500, -500, delay, increment, img3);
+                img1.setLocation(0, 50);
+                img2.setLocation(500, 50);
+                img3.setLocation(-500, 50);
+                nb--;
+                break;
+                //img1.setLocation(500, 0);
+            case 2:
+                ac.jLabelXRight(500, -500, delay, increment, img1);
+                ac.jLabelXRight(-500, 0, delay, increment, img2);
+                ac.jLabelXRight(0, 500, delay, increment, img3);
+                //img1.setLocation(-500, 50);
+                //img2.setLocation(0, 50);
+                //img3.setLocation(500, 50);
+                nb--;
+                break;
+        }
+        actual = actual.anterior;
+        setImages(nb);
+    }
 }
