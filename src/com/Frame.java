@@ -104,6 +104,7 @@ public class Frame extends javax.swing.JFrame {
         newalbum = new javax.swing.JButton();
         lblSelect = new javax.swing.JLabel();
         album = new javax.swing.JComboBox<>();
+        tap = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Album de Fotografías");
@@ -146,7 +147,7 @@ public class Frame extends javax.swing.JFrame {
                 loopActionPerformed(evt);
             }
         });
-        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 50, 50));
+        right.add(loop, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 50, 50));
 
         back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Prev.png"))); // NOI18N
         back.setBorder(null);
@@ -202,6 +203,15 @@ public class Frame extends javax.swing.JFrame {
             }
         });
         right.add(album, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 180, -1));
+
+        tap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/TapToPlay.png"))); // NOI18N
+        tap.setBorder(null);
+        tap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tapActionPerformed(evt);
+            }
+        });
+        right.add(tap, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 50, 50));
 
         container.add(right, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 200, 500));
 
@@ -277,6 +287,16 @@ public class Frame extends javax.swing.JFrame {
         admAlbum.setVisible(true);
     }//GEN-LAST:event_newalbumActionPerformed
 
+    private void tapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tapActionPerformed
+        if(tap.isSelected()){
+            //mt.loop(true);
+            tap.setIcon(new ImageIcon(getClass().getResource("/img/TapToPlayActive.png")));
+        } else {
+            //mt.loop(false);
+            tap.setIcon(new ImageIcon(getClass().getResource("/img/TapToPlay.png")));
+        }
+    }//GEN-LAST:event_tapActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -327,5 +347,6 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JPanel right;
     private javax.swing.JButton start;
     private javax.swing.JButton stop;
+    private javax.swing.JToggleButton tap;
     // End of variables declaration//GEN-END:variables
 }
